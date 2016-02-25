@@ -1,0 +1,140 @@
+<openerp>
+<data>
+      <template id="report_employee_requisition">
+            <t t-call="report.html_container">
+            <t t-set="data_report_margin_top" t-value="12"/>
+            <t t-set="data_report_dpi" t-value="90"/>
+                  <t t-foreach="docs" t-as="o">
+                        <t t-call="report.internal_layout">
+                              <div class="page">
+                                    <table class="table table-condensed table-bordered">
+                                          <tr>      
+                                                <td width="20%">
+                                                      <img height="30px" src="/hr_jayanita/static/src/img/company_logo.png"/>
+                                                </td>
+                                                <td class="text-center" width="60%"> 
+                                                      <h4>EMPLOYEE REQUISITION FORM</h4>
+                                                </td>
+                                                <td class="text-right" width="20%">
+                                                      <img src="/hr_jayanita/static/src/img/decowindow.png"  height="30px"/>   
+                                                </td>
+                                                
+                                        </tr>
+                                          <tr>
+                                                <td>
+                                                      <span >Ref. ID (Allotted by HR)</span>
+                                                </td>
+                                                <td colspan="2">
+                                                      <span t-raw="o.name" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td>
+                                                      <span >Department Name</span>
+                                                </td>
+                                                <td colspan="2">
+                                                      <span t-raw="o.department_id.name" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td>
+                                                      <span >Location</span>
+                                                </td>
+                                                <td colspan="2">
+                                                      <t t-foreach="o.address_id" t-as="loc">
+                                                            <span class="label label-default" t-raw="loc.name" />  
+                                                      </t>
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td>
+                                                      <span >Education Qualification</span>
+                                                </td>
+                                                <td colspan="2">
+                                                      <t t-foreach="o.type_ids" t-as="key">
+                                                            <span class="label label-default" t-raw="key.name" />  
+                                                      </t>
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td>
+                                                      <span>Requirment</span>
+                                                </td>
+                                                <td colspan="2">
+                                                     
+                                                      <table class="table table-condensed table-bordered">
+                                                            <tr>
+                                                                  <th><span>Position</span></th>
+                                                                  <th><span>Experiance Required</span></th>
+                                                                  <th><span>No of Vacancy</span></th>
+                                                                  <th><span>Remarks</span></th>
+                                                            </tr>
+                                                            <t t-foreach="o.job_line" t-as="line">
+                                                            <tr>
+                                                                  <td><span t-raw="line.job_id.name" /></td>
+                                                                  <td><span t-raw="line.experiance" /></td>
+                                                                  <td><span t-raw="line.vacancy"/></td>
+                                                                  <td><span t-raw="line.remarks"/></td>
+                                                            </tr>
+                                                            </t>
+                                                      </table>
+                                                      
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td>
+                                                      <span >Requested Date</span>
+                                                </td>
+                                                <td colspan="2">
+                                                      <span t-raw="o.date_request" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td>
+                                                      <span >Requisition Created By</span>
+                                                </td>
+                                                <td colspan="2">
+                                                      <span t-raw="o.created_by.name" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td>
+                                                      <span >Reporting Authority</span>
+                                                </td>
+                                                <td colspan="2">
+                                                      <span t-raw="o.reporting_authority.name" />
+                                                </td>
+                                          </tr>
+                                           <tr>
+                                                <td>
+                                                      <span >Job description</span>
+                                                </td>
+                                                <td colspan="2">
+                                                      <span t-raw="o.job_description" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td>
+                                                      <span >Responsibilities </span>
+                                                </td>
+                                                <td colspan="2">
+                                                      <span t-raw="o.primary_responsibilities" />
+                                                </td>
+                                          </tr>
+                                          <tr>
+                                                <td>
+                                                      <span >Preferred Industry </span>
+                                                </td>
+                                                <td colspan="2">
+                                                      <span t-raw="o.preferred_indust" />
+                                                </td>
+                                          </tr>
+                                    </table>
+                                    
+                              </div>
+                        </t>
+                  </t>
+            </t>
+      </template>
+</data>
+</openerp>

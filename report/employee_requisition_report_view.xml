@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <report 
+            id="action_report_employee_requisition" 
+            model="employee.requision" 
+            string="Requisition Report"
+            report_type="qweb-pdf"
+            name="employee_requisition.report_employee_requisition" 
+            file="employee_requisition.report_employee_requisition"
+        />
+       
+    </data>
+</openerp>

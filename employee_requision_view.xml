@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>     
+        <record id="view_employee_requision_search_form" model="ir.ui.view">
+            <field name="name">Employee Requision Search</field>
+            <field name="model">employee.requision</field>
+            <field name="arch" type="xml">
+                <search string="Search Employee Requision">
+                    <field name="name" filter_domain="['|','|',('name','ilike',self)]" string="Ref Number"/>
+                    <filter string="My" domain="[('user_id', '=', uid)]"/>
+                    <separator/>
+                    <field name="department_id"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Responsible" domain="[]"  context="{'group_by':'user_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_employee_requision_form">
+            <field name="name">employee.requision.form</field>
+            <field name="model">employee.requision</field>
+            <field name="arch" type="xml">
+                <form string="Employee Requision">
+                    <header>
+                        <button string="Approve" name="approve_requision_req" type="object"  class="oe_highlight" attrs="{'invisible':[('state','!=','confirm')]}"/>
+                        <button string="Validate" name="second_validate" type="object" groups="base.leave_approve_group" class="oe_highlight" attrs="{'invisible':[('state','!=','validate1')]}"/>
+                       <!--  <button string="Refuse" name="refuse" type="object" groups="base.leave_approve_group" attrs="{'invisible':[('state','=','draft,validate'),('state','!=','validate'),('state','!=','validate1')]}"/> -->
+                        <button name="set_recruit" string="Launch Recruitment" states="validate" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validate" statusbar_colors='{"confirm":"blue","validate1":"blue","refuse":"red"}'/>
+                    </header>
+                    <sheet>
+                 
+                        <group>
+                            <field name="name" states="confirm"/>
+                            <field name="department_id"/>
+                            <field name="address_id" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="type_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="reporting_authority"/>
+                            <field name="job_line" nolable="1">
+                                <tree string="Job Details" editable="top" >
+                                    <field name="job_id"/>
+                                    <field name="experiance"/>
+                                    <field name="vacancy"/>
+                                    <field name="remarks"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Job Description">
+                            <field name="job_description"/>
+                            <field name="primary_responsibilities"/>
+                            <field name="preferred_indust" />
+                        </group>
+              
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_employee_requision_tree">
+            <field name="name">employee.requision.tree</field>
+            <field name="model">employee.requision</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Requision">
+                    <field name="name"/>
+                    <field name="department_id"/>
+                    <field name="address_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="employee_requision_form_action" model="ir.actions.act_window">
+            <field name="name">Employee Requisition Request</field>
+            <field name="res_model">employee.requision</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_employee_requision_search_form"/>
+        </record>
+
+        <menuitem id="menu_hr_employee_requision" name="Employee Requisition" parent="base.menu_crm_case_job_req_main" action="employee_requision_form_action"/>
+
+    </data>
+</openerp>
