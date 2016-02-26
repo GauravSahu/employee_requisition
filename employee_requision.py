@@ -48,6 +48,14 @@ class employee_requision(osv.Model):
             return ids[0]
         return False
 
+    def _deaprtment_get(self, cr, uid, context=None):
+        ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)], context=context)
+        if ids:
+            print "My ID.........",ids
+            department_id = self.pool.get('hr.employee').browse(cr,uid,ids).department_id
+            return department_id.id
+        return False
+
     def create(self,cr,uid,vals,context=None):
     	vals['state'] = 'confirm'
     	if 'created_by' in vals and vals['created_by']:
@@ -95,6 +103,7 @@ class employee_requision(osv.Model):
     }
     _defaults = {
 		'state': 'draft',
+        'department_id' : _deaprtment_get,
         'date_request' : fields.date.context_today,
 		'user_id': lambda obj, cr, uid, context: uid,
 		'created_by': _employee_get,
