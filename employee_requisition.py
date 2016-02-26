@@ -20,16 +20,16 @@
 ##############################################################################
 
 from datetime import datetime
-
+import itertools
 from openerp import tools
 from openerp import SUPERUSER_ID
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 
-class employee_requision(osv.Model):
-    _name= 'employee.requision'
-    _description = 'Employee Requision'
+class employee_requisition(osv.Model):
+    _name= 'employee.requisition'
+    _description = 'Employee Requisition'
     _inherit = ['mail.thread', 'ir.needaction_mixin']
     _track = {
         'state': {
@@ -62,14 +62,21 @@ class employee_requision(osv.Model):
     		if emp_id.parent_id and emp_id.parent_id.user_id.id:
         		vals['approve_user_id']=emp_id.parent_id.user_id.id
         		vals['user_id']=emp_id.user_id and emp_id.user_id.id or False
-        res=super(employee_requision,self).create(cr,uid,vals,context=None)
+        res=super(employee_requisition,self).create(cr,uid,vals,context=None)
         return res
 
     def set_recruit(self, cr, uid, ids, context=None):
+        res_list = []
         for job in self.browse(cr, uid, ids, context=context).job_line:
-            no_of_recruitment = job.vacancy == 0 and 1 or job.vacancy
-            self.pool.get('hr.job').write(cr, uid, [job.job_id.id], {'state': 'recruit', 'no_of_recruitment': no_of_recruitment}, context=context)
-            res = self.write(cr,uid,ids,{'state' : 'recruit'},context=context)
+            res_list.append({'job_id' : job.job_id.id ,'vacancy' : job.vacancy})
+        job_ids = self.pool.get('hr.job').search(cr,uid,[])
+        for each in self.pool.get('hr.job').browse(cr,uid,job_ids):
+            if each.no_of_recruitment > 0:
+                res_list.append({'job_id' : each.id ,'vacancy' : each.no_of_recruitment})
+        for key, group in itertools.groupby(sorted(res_list), lambda item: item["job_id"]):
+            no_of_recruitment = sum([item["vacancy"] for item in group])
+            self.pool.get('hr.job').write(cr, uid, [key], {'state': 'recruit', 'no_of_recruitment': no_of_recruitment}, context=context)
+        res = self.write(cr,uid,ids,{'state' : 'recruit'},context=context)
         return res
 
     def set_recruit_close(self, cr, uid, ids, context=None):
@@ -120,7 +127,7 @@ class employee_requision(osv.Model):
 class requision_job_line(osv.Model):
 	_name="requision.job.line"
 	_columns ={
-		'requision_id' : fields.many2one('employee.requision','Requision Id'),
+		'requision_id' : fields.many2one('employee.requisition','Requision Id'),
 		'job_id' : fields.many2one('hr.job','Job'),
 		'experiance' : fields.integer('Experiance Required'),
 		'remarks' : fields.char('Remarks'),

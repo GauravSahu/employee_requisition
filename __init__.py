@@ -19,7 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import employee_requision
+import employee_requisition
 import report
 # import res_config
 
