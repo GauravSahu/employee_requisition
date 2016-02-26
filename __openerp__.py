@@ -41,6 +41,7 @@ You can define the different phases of interviews and easily rate the applicant 
     'data': [
         'report/employee_requisition_report_view.xml',
         'views/report_employee_requisition.xml',
+        'security/security_view.xml',
         'employee_requision_view.xml',
     ],
     'installable': True,

@@ -62,7 +62,15 @@ class employee_requision(osv.Model):
         for job in self.browse(cr, uid, ids, context=context).job_line:
             no_of_recruitment = job.vacancy == 0 and 1 or job.vacancy
             self.pool.get('hr.job').write(cr, uid, [job.job_id.id], {'state': 'recruit', 'no_of_recruitment': no_of_recruitment}, context=context)
-        return True
+            res = self.write(cr,uid,ids,{'state' : 'recruit'},context=context)
+        return res
+
+    def set_recruit_close(self, cr, uid, ids, context=None):
+        for job in self.browse(cr, uid, ids, context=context).job_line:
+            no_of_recruitment = job.vacancy == 0 and 1 or job.vacancy
+            self.pool.get('hr.job').write(cr, uid, [job.job_id.id], {'state': 'open', 'no_of_recruitment': 0}, context=context)
+            res = self.write(cr,uid,ids,{'state' : 'open'},context=context)
+        return res
 
     _columns={
     	'name' : fields.char('Ref Number'),
@@ -76,7 +84,7 @@ class employee_requision(osv.Model):
     	'primary_responsibilities' : fields.html('Responsibilities'),
     	'preferred_indust' : fields.char('Preferred Industry'),
     	'type_ids' : fields.many2many('hr.recruitment.degree','education_group_rel','requision_id','education_master_id','Education Qualification'),
-    	'state': fields.selection([('draft','To Submit'),('cancelled','Cancel'),('confirm','To Approve'),('refuse','Refused'),('validate1','Approval'),('validate','Approved')],
+    	'state': fields.selection([('draft','To Submit'),('confirm','To Approve'),('refuse','Refused'),('validate1','Approval'),('validate','Approved'),('recruit', 'Recruitment in Progress'),('open', 'Recruitment Closed')],
                 'Status', track_visibility='onchange',
                  help='The status is set to \'To Submit\', when a holiday request is created.\
                  \nThe status is \'To Approve\', when holiday request is confirmed by user.\
@@ -93,6 +101,9 @@ class employee_requision(osv.Model):
 	}
     def approve_requision_req(self,cr,uid,ids,context=None):
         res = self.write(cr,uid,ids,{'state' : 'validate'},context=None)
+        return res 
+    def reset_to_approve(self,cr,uid,ids,context=None):
+        res = self.write(cr,uid,ids,{'state' : 'confirm'},context=None)
         return res 
 
 class requision_job_line(osv.Model):

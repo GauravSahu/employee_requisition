@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="1">
+
+	
+
+    
+
+    <record id="base.employee_requision_hr_manager_group" model="res.groups">
+        <field name="name">Requision HR Manager Group</field>
+    </record>
+
+    <record id="base.employee_requision_hr_group" model="res.groups">
+        <field name="name">Requision Manager Group</field>
+    </record>
+
+    <record id="base.employee_requision_request_group" model="res.groups">
+        <field name="name">Requision Request Group</field>
+    </record>
+  
+
+
+   
+</data>
+</openerp>

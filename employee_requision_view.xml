@@ -26,19 +26,20 @@
                     <header>
                         <button string="Approve" name="approve_requision_req" type="object"  class="oe_highlight" attrs="{'invisible':[('state','!=','confirm')]}"/>
                         <button string="Validate" name="second_validate" type="object" groups="base.leave_approve_group" class="oe_highlight" attrs="{'invisible':[('state','!=','validate1')]}"/>
-                       <!--  <button string="Refuse" name="refuse" type="object" groups="base.leave_approve_group" attrs="{'invisible':[('state','=','draft,validate'),('state','!=','validate'),('state','!=','validate1')]}"/> -->
                         <button name="set_recruit" string="Launch Recruitment" states="validate" type="object" class="oe_highlight" groups="base.group_user"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validate" statusbar_colors='{"confirm":"blue","validate1":"blue","refuse":"red"}'/>
+                         <button name="reset_to_approve" string="Reset" states="validate" type="object" class="oe_highlight" groups="base.group_user"/>
+                         <button name="set_recruit_close" string="Stop Recruitment" states="recruit" type="object" class="oe_highlight" groups="base.group_user"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validate,recruit,open" statusbar_colors='{"confirm":"blue","validate1":"blue","refuse":"red"}'/>
                     </header>
                     <sheet>
                  
                         <group>
-                            <field name="name" states="confirm"/>
-                            <field name="department_id"/>
-                            <field name="address_id" widget="many2many_tags" options="{'no_create': True}"/>
-                            <field name="type_ids" widget="many2many_tags" options="{'no_create': True}"/>
-                            <field name="reporting_authority"/>
-                            <field name="job_line" nolable="1">
+                            <field name="name" states="confirm,validate,open,recruit" attrs="{'readonly':[('state','in',('validate','open','recruit'))]}"/>
+                            <field name="department_id"  attrs="{'readonly':[('state','in',('validate','open','recruit'))]}" />
+                            <field name="address_id" widget="many2many_tags" options="{'no_create': True}"  attrs="{'readonly':[('state','in',('validate','open','recruit'))]}" />
+                            <field name="type_ids" widget="many2many_tags" options="{'no_create': True}"  attrs="{'readonly':[('state','in',('validate','open','recruit'))]}"/>
+                            <field name="reporting_authority"  attrs="{'readonly':[('state','in',('validate','open','recruit'))]}" />
+                            <field name="job_line" nolable="1"  attrs="{'readonly':[('state','in',('validate','open','recruit'))]}">
                                 <tree string="Job Details" editable="top" >
                                     <field name="job_id"/>
                                     <field name="experiance"/>
@@ -47,10 +48,10 @@
                                 </tree>
                             </field>
                         </group>
-                        <group string="Job Description">
-                            <field name="job_description"/>
-                            <field name="primary_responsibilities"/>
-                            <field name="preferred_indust" />
+                        <group string="Job Description"  attrs="{'readonly':[('state','in',('validate','open','recruit'))]}">
+                            <field name="job_description"  attrs="{'readonly':[('state','in',('validate','open','recruit'))]}" />
+                            <field name="primary_responsibilities"  attrs="{'readonly':[('state','in',('validate','open','recruit'))]}"/>
+                            <field name="preferred_indust"  attrs="{'readonly':[('state','in',('validate','open','recruit'))]}" />
                         </group>
               
                     </sheet>
