@@ -25,7 +25,7 @@
                 <form string="Employee Requision">
                     <header>
                         <button string="Approve" name="approve_requision_req" groups="base.employee_requision_hr_manager_group" type="object"  class="oe_highlight" attrs="{'invisible':[('state','!=','confirm')]}"/>
-                    
+                        <button string="Refuse" name="refuse_requision_req" groups="base.employee_requision_hr_manager_group" type="object"  class="oe_highlight" attrs="{'invisible':[('state','!=','confirm')]}"/>
                         <button name="set_recruit" string="Launch Recruitment" states="validate" type="object" class="oe_highlight" groups="base.employee_requision_hr_manager_group,base.employee_requision_hr_group"/>
                          <button name="reset_to_approve" string="Reset" groups="base.employee_requision_hr_manager_group" states="validate" type="object" class="oe_highlight" />
                          <button name="set_recruit_close" string="Stop Recruitment" states="recruit" type="object" class="oe_highlight" groups="base.employee_requision_hr_manager_group,base.employee_requision_hr_group" />

@@ -51,7 +51,6 @@ class employee_requision(osv.Model):
     def _deaprtment_get(self, cr, uid, context=None):
         ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)], context=context)
         if ids:
-            print "My ID.........",ids
             department_id = self.pool.get('hr.employee').browse(cr,uid,ids).department_id
             return department_id.id
         return False
@@ -110,6 +109,9 @@ class employee_requision(osv.Model):
 	}
     def approve_requision_req(self,cr,uid,ids,context=None):
         res = self.write(cr,uid,ids,{'state' : 'validate'},context=None)
+        return res 
+    def refuse_requision_req(self,cr,uid,ids,context=None):
+        res = self.write(cr,uid,ids,{'state' : 'refuse'},context=None)
         return res 
     def reset_to_approve(self,cr,uid,ids,context=None):
         res = self.write(cr,uid,ids,{'state' : 'confirm'},context=None)
