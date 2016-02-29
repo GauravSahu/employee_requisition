@@ -132,6 +132,53 @@ class requision_job_line(osv.Model):
 		'experiance' : fields.integer('Experiance Required'),
 		'remarks' : fields.char('Remarks'),
 		'vacancy' : fields.integer('No of Vacancy'),
+        'salary' : fields.float('Salary'),
 	}
+
+
+class hr_applicant(osv.Model):
+    _inherit = "hr.applicant"
+    _description = "Applicant"
+    _columns = {
+        'requision_id' : fields.many2one('employee.requisition','Requision Id'),
+        'gender': fields.selection([('male', 'Male'), ('female', 'Female')], 'Gender'),
+        'marital': fields.selection([('single', 'Single'), ('married', 'Married'), ('widower', 'Widower'), ('divorced', 'Divorced')],'Marital Status'),
+        'total_experience' : fields.float('Experience(Year)'),
+        'age_group': fields.selection([('20_25', '20-25'),('25_30', '25-30'), ('31_35', '31-35'), ('35_40', '36-40'), ('40_h', '40 & Higher')],'Age Group'),
+        'distance_home' : fields.float('Distance Home'),
+        'nominee_id' : fields.one2many('employee.nominee','employee_id','Family Background'),
+        'education_ids' : fields.one2many('education.detail','applicant_id','Education Qualification'),
+        'job_leaving_reason' : fields.char('Reason for Leaving Last Job'),
+        'last_gross_salary' : fields.float('Last Gross Salary'),
+        'work_exp_ids' : fields.one2many('industrial.experience','applicant_id','Work Experience'),
+        'skills_ids': fields.many2many('edu.skills.type', 'applicent_skill_rel', 'applicant_id', 'skill_id', 'Software/Other '),
+    }
+
+class education_detail(osv.osv):
+    _name = 'education.detail'
+    _columns = {
+        'applicant_id' : fields.many2one('hr.applicant','Applicant'),
+        'degree_id' : fields.many2one('hr.recruitment.degree','Degree'),
+        'school' : fields.char('School/University'),
+        'city' : fields.char('City'),
+        'percentage' : fields.float('Percentage')
+    }
+class edu_skills_type(osv.osv):
+    _name = 'edu.skills.type'
+    _columns = {
+        'name': fields.char("Skills", required=True),
+        'applicant_id': fields.many2one('hr.applicant', 'Applicant', select=True),
+    }
+class industrial_experience(osv.osv):
+    _name = 'industrial.experience'
+    _description = "Industrial Experience"
+    _columns = {
+        'applicant_id' : fields.many2one('hr.applicant','Applicant'),
+        'company_name' : fields.char('Company Name'),
+        'duration' : fields.char('Month/Year'),
+        'company_type' : fields.selection([('export','Export Based'),('non_export','Non Export Based')],'Company_type'),
+        'responsibilities' : fields.char('Responsibilities'),
+    }
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

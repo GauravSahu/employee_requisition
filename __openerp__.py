@@ -37,7 +37,7 @@ You can define the different phases of interviews and easily rate the applicant 
 """,
     'author': 'Gaurav Sahu',
     'website': 'https://github.com/gauravsahu',
-    'depends': ['hr_recruitment'],
+    'depends': ['hr_recruitment','hr_jayanita'],
     'data': [
         'report/employee_requisition_report_view.xml',
         'views/report_employee_requisition.xml',

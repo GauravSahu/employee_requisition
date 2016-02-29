@@ -4,10 +4,10 @@
         
         <report 
             id="action_report_employee_requisition" 
-            model="employee.requision" 
+            model="employee.requisition" 
             string="Requisition Report"
             report_type="qweb-pdf"
-            name="Requisition Report" 
+            name="employee_requisition.report_employee_requisition" 
             file="employee_requisition.report_employee_requisition"
         />
        
